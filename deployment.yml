@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mspoc01-demoapp-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: pod-mspoc01-demoapp
+      labels:
+        run: mspoc01-demoapp
+    spec:
+      containers:
+        - name: mspoc01-demoapp-container
+          image: "registry.ng.bluemix.net/hmuralid1/mspoc01_demoapp:1"
+          imagePullPolicy: Always
+          
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  labels: 
+    run: mspoc01-demoapp
+  name: mspoc01-demoapp-service
+spec: 
+  ports: 
+    - 
+      nodePort: 30071
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector: 
+    run: mspoc01-demoapp
+  type: NodePort
+
